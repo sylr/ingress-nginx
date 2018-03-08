@@ -250,6 +250,11 @@ type Configuration struct {
 	// http://nginx.org/en/docs/http/ngx_http_map_module.html#map_hash_bucket_size
 	MapHashBucketSize int `json:"map-hash-bucket-size,omitempty"`
 
+	// NginxStatusWhitelist has the list of cidr that are allowed to access
+	// the /nginx_status endpoint of the "_" server
+	NginxStatusWhitelist     string `json:"nginxStatusWhitelist,omitempty"`
+	NginxStatusIpv6Whitelist string `json:"nginxStatusIpv6Whitelist,omitempty"`
+
 	// If UseProxyProtocol is enabled ProxyRealIPCIDR defines the default the IP/network address
 	// of your external load balancer
 	ProxyRealIPCIDR []string `json:"proxy-real-ip-cidr,omitempty"`
@@ -534,6 +539,8 @@ func NewDefault() Configuration {
 		LogFormatUpstream:          logFormatUpstream,
 		MaxWorkerConnections:       16384,
 		MapHashBucketSize:          64,
+		NginxStatusWhitelist:       "127.0.0.1",
+		NginxStatusIpv6Whitelist:   "::1",
 		ProxyRealIPCIDR:            defIPCIDR,
 		ServerNameHashMaxSize:      1024,
 		ProxyHeadersHashMaxSize:    512,
@@ -628,6 +635,8 @@ type TemplateConfig struct {
 	Cfg                         Configuration
 	IsIPV6Enabled               bool
 	IsSSLPassthroughEnabled     bool
+	NginxStatusWhitelist        string
+	NginxStatusIpv6Whitelist    string
 	RedirectServers             map[string]string
 	ListenPorts                 *ListenPorts
 	PublishService              *apiv1.Service

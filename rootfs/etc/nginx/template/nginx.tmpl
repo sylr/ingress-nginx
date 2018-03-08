@@ -999,8 +999,10 @@ stream {
         # this is required to avoid error if nginx is being monitored
         # with an external software (like sysdig)
         location /nginx_status {
-            allow 127.0.0.1;
-            {{ if $all.IsIPV6Enabled }}allow ::1;{{ end }}
+            allow {{ $all.NginxStatusWhitelist }};
+            {{ if $all.IsIPV6Enabled -}}
+            allow {{ $all.NginxStatusIpv6Whitelist }};
+            {{ end -}}
             deny all;
 
             access_log off;

@@ -134,6 +134,12 @@ func ReadConfig(src map[string]string) config.Configuration {
 		}
 	}
 
+	nginxStatusWhitelist := "127.0.0.1"
+	if val, ok := conf[nginxStatusWhitelist]; ok {
+		delete(conf, nginxStatusWhitelist)
+		nginxStatusWhitelist = val
+	}
+
 	to := config.NewDefault()
 	to.CustomHTTPErrors = filterErrors(errors)
 	to.SkipAccessLogURLs = skipUrls
@@ -145,6 +151,7 @@ func ReadConfig(src map[string]string) config.Configuration {
 	to.HTTPRedirectCode = redirectCode
 	to.ProxyStreamResponses = streamResponses
 	to.DisableIpv6DNS = !ing_net.IsIPv6Enabled()
+	to.NginxStatusWhitelist = nginxStatusWhitelist
 
 	config := &mapstructure.DecoderConfig{
 		Metadata:         nil,

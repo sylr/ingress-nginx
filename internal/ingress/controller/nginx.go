@@ -615,6 +615,7 @@ func (n *NGINXController) OnUpdate(ingressCfg ingress.Configuration) error {
 		CustomErrors:            len(cfg.CustomHTTPErrors) > 0,
 		Cfg:                     cfg,
 		IsIPV6Enabled:           n.isIPV6Enabled && !cfg.DisableIpv6,
+		NginxStatusWhitelist:    cfg.NginxStatusWhitelist,
 		RedirectServers:         redirectServers,
 		IsSSLPassthroughEnabled: n.cfg.EnableSSLPassthrough,
 		ListenPorts:             n.cfg.ListenPorts,

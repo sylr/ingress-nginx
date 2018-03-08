@@ -98,7 +98,7 @@ http {
     {{ if $cfg.EnableOpentracing }}
     opentracing on;
     {{ end }}
-    
+
     {{ buildOpentracing $cfg }}
 
     include /etc/nginx/mime.types;
@@ -916,7 +916,7 @@ stream {
         # this is required to avoid error if nginx is being monitored
         # with an external software (like sysdig)
         location /nginx_status {
-            allow 127.0.0.1;
+            allow {{ $all.NginxStatusWhitelist }};
             {{ if $all.IsIPV6Enabled }}allow ::1;{{ end }}
             deny all;
 
